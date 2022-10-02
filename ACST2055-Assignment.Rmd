@@ -1,0 +1,290 @@
+---
+title: "ACST2055 Assignment"
+author: "Ze Hong Zhou (46375058)"
+date: '`r paste0("2022-09-30 (last edited ", format(Sys.time(), "%Y-%m-%d"), ")")`'
+output: 
+  bookdown::pdf_document2:
+    toc: false
+    number_sections: false
+    extra_dependencies: ["enumitem", "accents", "tensor", "actuarialsymbol"]
+header-includes:
+  - \renewcommand{\labelenumi}{\textbf{(\alph{enumi})}}
+  - \renewcommand{\labelenumii}{\textbf{(\roman{enumii})}}
+  - \newcommand{\benum}{\begin{enumerate}[resume]}
+  - \newcommand{\eenum}{\end{enumerate}}
+  - \allowdisplaybreaks
+  - \usepackage{fancyhdr}
+  - \pagestyle{fancy}
+  - \fancyhf{}
+  - \fancyhead[L]{Ze Hong Zhou}
+  - \fancyhead[R]{46375058}
+  - \fancyfoot[C]{Page \thepage}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+\fancypagestyle{firststyle}{
+   \fancyhf{}
+   \fancyhead[L]{}
+   \fancyhead[R]{}
+   \fancyfoot[C]{Page \thepage}
+   \renewcommand{\headrulewidth}{0pt}
+}
+\thispagestyle{firststyle}
+
+```{r, message = FALSE}
+library(tidyverse)
+```
+
+The original source code for this assignment can be found [\textcolor{blue}{here}](https://github.com/nzh-zhou/ACST2055-Assignment) after I make the repo public.
+
+# Section 1
+
+## Question 1
+
+Refer to the spreadsheet. Below are the formulas used.
+\begin{align*}
+p_x &= 1 - q_x, \\
+d_x &= l_x q_x, \\
+l_x &= l_{x-1} p_{x-1}.
+\end{align*}
+Since the table ends at age $109 < \omega-1$, an approximation needs to be used to compute the curtate life expectancy, especially at ages close to 110. If we assume that deaths are uniformly distributed throughout each whole year, the below approximation is formed.  
+\begin{equation*}
+e_x \approx \accentset{\circ}{e}_x - 0.5.
+\end{equation*}
+
+&nbsp;  
+
+## Question 2
+
+If the population continues to experience the same mortality rates over time:
+
+\begin{itemize}
+\item $\ddot a_x$ represents the expected present value of the benefits that a $(x)$ would receive for an annuity for life that pays 1 unit of currency per annum upon survival.
+\item $A_x$ is similar to $\ddot a_x$, but for a whole of life insurance policy that pays 1 unit of currency upon death.
+\item $\tensor*[^{2}]{A}{_x}$ is similar to $A_x$, but the force of interest is doubled.
+\item $D_x$ represents the expected number of people alive at age $x$, but discounted $x$ years at the constant interest rate.
+\item $\tensor*[^{2}]{D}{_x}$ is similar to $D_x$, but the force of interest is doubled.
+\end{itemize}
+
+&nbsp;  
+
+## Question 3
+
+Refer to the spreadsheet.
+
+Since the life table ends at age 109, approximations need to be used to compute the annuity and assurance functions. Below we explain and derive the approximation formulae.
+\begin{align*}
+e_{110} &= \frac{\displaystyle\sum_{t=1}^{\infty}\left( l_{110+t} \right)}{l_{110}} \\
+  &= \frac{l_{109}}{l_{110}} \cdot \frac{\displaystyle\sum_{t=1}^{\infty}\left( l_{109+t} \right) - l_{110}}{l_{109}} \\
+  &= p_{109}^{-1} \cdot e_{109} - 1.
+\end{align*}
+\begin{align*}
+\ddot a_x &= \ddot a_{x:\angl{110-x}} + v^{110-x} \cdot \tensor*[_{110-x}]{p}{_x} \cdot \ddot a_{110} \\
+  &\approx \ddot a_{x:\angl{110-x}} + \left( 1+e_{110} \cdot v^{e_{110}} \right) \cdot v^{110-x} \cdot \tensor*[_{110 - x}]{p}{_x} \\
+  &\quad\quad \text{there is one payment at age 110, and on average $e_{110}$ payments occurring on average at time $e_{110}$ after} \\
+  &= \sum_{t=0}^{109-x} \left( v^t \cdot \tensor[_t]{p}{_x} \right) + \left( 1+e_{110} \cdot v^{e_{110}} \right) \cdot v^{110-x} \cdot \tensor*[_{110 - x}]{p}{_x}.
+\end{align*}
+In a similar way, $A_x$ and $\tensor*[^2]{A}{_x}$ can be approximated.
+\begin{align*}
+A_x &= A_{x:\angl{110-x}} + v^{110-x} \cdot \tensor*[_{110-x}]{p}{_x} \cdot A_{110} \\
+  &\approx A_{x:\angl{110-x}} + v^{110-x+e_{110}} \cdot \tensor*[_{110 - x}]{p}{_x} \\
+  &\quad\quad \text{there is one payment occurring on average at time $e_{110}$ after age 110} \\
+  &=\sum_{t=0}^{109-x} \left( v^{t+1} \cdot \tensor*[_{t|}]{q}{_x} \right) + v^{110-x+e_{110}} \cdot \tensor*[_{110 - x}]{p}{_x}.
+\end{align*}
+
+$D_x$ and $\tensor*[^2]{D}{_x}$ can computed via the formula below.
+\begin{align*}
+D_x = l_x \cdot v^{x}.
+\end{align*}
+
+&nbsp;  
+
+## Question 4
+
+Refer to the spreadsheet. Below are the formulas used.
+\begin{align*}
+p_{[x-1]+1} \cdot l_{[x-1]+1} = l_{x+1} &\Longrightarrow l_{[x-1]+1} = \frac{l_{x+1}}{1 - 0.9q_x} \\
+p_{[x]} \cdot l_{[x]} = l_{[x]+1} &\Longrightarrow l_{[x]} = \frac{l_{[x]+1}}{1 - 0.6q_x}
+\end{align*}
+
+&nbsp;  
+
+## Question 5
+
+Refer to the spreadsheet. Below are the formulas used.
+
+$e_{[109]}$ and $e_{[110]}$ are difficult to estimate (requires $q_x$ value estimates for ages 110 and beyond), so the annuity and assurance function values are not provided for ages 109 and beyond.
+\begin{align*}
+\ddot a_{[x]} &\approx \begin{cases}
+    \displaystyle \sum_{t=0}^{109-x} \left( v^t \cdot \tensor[_t]{p}{_{[x]}} \right) + \left( 1+e_{110} \cdot v^{e_{110}} \right) \cdot v^{110-x} \cdot \tensor*[_{110 - x}]{p}{_{[x]}} &\text{if $x \in [0, 108]$} \\
+    1 + \left( 1+e_{[109]+1} \cdot v^{e_{[109]+1}} \right)vp_{[109]} &\text{if $x = 109$} \\
+    1 + e_{[110]} \cdot v^{e_{[110]}} &\text{if $x = 110$}
+\end{cases} \\
+  &= \begin{cases}
+    1 + vp_{[x]} + \displaystyle \sum_{t=2}^{109-x} \left( v^{t} \cdot \tensor[_{t}]{p}{_{[x]}} \right) + \left( 1+e_{110} \cdot v^{e_{110}} \right) \cdot v^{110-x} \cdot \tensor*[_{110 - x}]{p}{_{[x]}} &\text{if $x \in [0, 107]$} \\
+    1 + vp_{[108]} + \left( 1+e_{110} \cdot v^{e_{110}} \right) v^{2} \tensor*[_2]{p}{_{[108]}} &\text{if $x = 108$} \\
+    1 + \left( 1+e_{[109]+1} \cdot v^{e_{[109]+1}} \right)vp_{[109]} &\text{if $x = 109$} \\
+    1 + e_{[110]} \cdot v^{e_{[110]}} &\text{if $x = 110$}
+\end{cases}
+\end{align*}
+\begin{align*}
+\ddot a_{[x-1]+1} &\approx \begin{cases}
+    \displaystyle \sum_{t=0}^{109-x} \left( v^t \cdot \tensor[_t]{p}{_{[x-1]+1}} \right) + \left( 1+e_{110} \cdot v^{e_{110}} \right) \cdot v^{110-x} \cdot \tensor*[_{110 - x}]{p}{_{[x-1]+1}} &\text{if $x \in [1, 109]$} \\
+    1 + e_{[109]+1} \cdot v^{e_{[109]+1}} &\text{if $x = 110$}
+\end{cases} \\
+  &= \begin{cases}
+    1 + \displaystyle \sum_{t=1}^{109-x} \left( v^t \cdot \tensor[_{t}]{p}{_{[x-1]+1}} \right) + \left( 1+e_{110} \cdot v^{e_{110}} \right) \cdot v^{110-x} \cdot \tensor*[_{110 - x}]{p}{_{[x-1]+1}} &\text{if $x \in [1, 108]$} \\
+    1 + \left( 1+e_{110} \cdot v^{e_{110}} \right)vp_{[108]+1} &\text{if $x = 109$} \\
+    1 + e_{[109]+1} \cdot v^{e_{[109]+1}} &\text{if $x = 110$}
+\end{cases}
+\end{align*}
+
+\begin{align*}
+A_{[x]} &\approx \begin{cases}
+    \displaystyle \sum_{t=0}^{109-x} \left( v^{t+1} \cdot \tensor*[_{t|}]{q}{_{[x]}} \right) + v^{110-x+e_{110}} \cdot \tensor*[_{110 - x}]{p}{_{[x]}} &\text{if $x \in [0, 108]$} \\
+    vq_{[109]} + v^{1+e_{[109]+1}} \cdot p_{[109]} &\text{if $x = 109$} \\
+    v^{e_{[110]}} &\text{if $x = 110$}
+\end{cases} \\
+  &= \begin{cases}
+    vq_{[x]} + v^2 \tensor*[_{1|}]{q}{_{[x]}} + \displaystyle \sum_{t=2}^{109-x} \left( v^{t+1} \cdot \tensor*[_{t|}]{q}{_{[x]}} \right) + v^{110-x+e_{110}} \cdot \tensor*[_{110 - x}]{p}{_{[x]}} &\text{if $x \in [0, 107]$} \\
+    vq_{[108]} + v^2 \tensor*[_{1|}]{q}{_{[108]}} + v^{2+e_{110}} \cdot \tensor*[_2]{p}{_{[108]}} &\text{if $x = 108$} \\
+    vq_{[109]} + v^{1+e_{[109]+1}} \cdot p_{[109]} &\text{if $x = 109$} \\
+    v^{e_{[110]}} &\text{if $x = 110$}
+\end{cases}
+\end{align*}
+\begin{align*}
+A_{[x-1]+1} &\approx \begin{cases}
+    \displaystyle \sum_{t=0}^{109-x} \left( v^{t+1} \cdot \tensor*[_{t|}]{q}{_{[x-1]+1}} \right) + v^{110-x+e_{110}} \cdot \tensor*[_{110 - x}]{p}{_{[x-1]+1}} &\text{if $x \in [1, 109]$} \\
+    v^{e_{[109]+1}} &\text{if $x = 110$}
+\end{cases} \\
+  &= \begin{cases}
+    vq_{[x-1]+1} + \displaystyle \sum_{t=1}^{109-x} \left( v^{t+1} \cdot \tensor*[_{t|}]{q}{_{[x-1]+1}} \right) + v^{110-x+e_{110}} \cdot \tensor*[_{110 - x}]{p}{_{[x-1]+1}} &\text{if $x \in [1, 108]$} \\
+    vq_{[108]+1} + v^{1+e_{110}} \cdot p_{[108]+1} &\text{if $x = 109$} \\
+    v^{e_{[109]+1}} &\text{if $x = 110$}
+\end{cases}
+\end{align*}
+
+\begin{align*}
+D_{[x]} &= l_{[x]} \cdot v^x \\
+D_{[x-1]+1} &= l_{[x-1]+1} \cdot v^x
+\end{align*}
+
+&nbsp;  
+
+## Question 6
+
+\begin{align*}
+r &= 46375058 \;\%\; 20 = 18 \\
+y &= 18 + 25 = 43
+\end{align*}
+
+\begin{enumerate}
+\item \begin{align*}
+    \actsymb{A}{\nthtop{1}{43}:\angl{10}} &= \actsymb{A}{43} - \frac{D_{53}}{D_{43}}A_{53} \\
+      &= `r round(0.207101936889049 - 12122.1678853901/18214.9159949494 * 0.293515284157078, 5)`
+  \end{align*}
+\item \begin{align*}
+    \ax*[5|]{[43]:\angl{25}} &= \frac{D_{48}}{D_{[43]}} \ax*{48:\angl{25}} \approx \frac{D_{48}}{D_{[43]}} \cdot 1.04^{-0.5} \cdot \ax**{48:\angl{25}} = \frac{D_{48}}{D_{[43]}} \cdot 1.04^{-0.5} \cdot \left( \ax**{48} - \frac{D_{73}}{D_{48}} \ax**{73} \right) \\
+    &= `r round(14882.0326768195/18205.6135438292 * 1.04^-0.5 * (19.5773493691764 - 4918.8260212104/14882.0326768195 * 11.5174923151202), 2)`
+  \end{align*}
+\item \begin{align*}
+    \Ax*{43:\angl{20}} &= \Ax*{\nthtop{1}{43}:\angl{20}} + \Ax{43:\nthtop{1}{\angl{20}}} \approx 1.04^{0.5} \cdot \Ax{\nthtop{1}{43}:\angl{20}} + \frac{D_{63}}{D_{43}} = 1.04^{0.5} \left( \Ax{43} - \frac{D_{63}}{D_{43}} \Ax{63} \right) + \frac{D_{63}}{D_{43}} \\
+      &= `r round(1.04^0.5 * (0.207101936889049 - 7919.39153445288/18214.9159949494 * 0.409406388417785) + 7919.39153445288/18214.9159949494, 5)`
+  \end{align*}
+\item \begin{align*}
+    E(v^{T_{43}}) &= \Ax*{43} \\
+    Var(v^{T_{43}}) &= \Ax*[][2]{43} - \left(\Ax*{43}\right)^2 \approx \left(1.04^2\right)^{0.5} \cdot \Ax[][2]{43} - \left( 1.04^{0.5} \cdot \Ax{43} \right)^2 = 1.04 \left( \Ax[][2]{43} - \left(\Ax{43}\right)^2 \right) \\
+      &= `r round(1.04 * (0.056665088858413 - 0.207101936889049^2), 5)`
+  \end{align*}
+\end{enumerate}
+
+&nbsp;  
+
+# Section 2
+
+## Question 7
+
+Refer to the spreadsheet. Let $(i(x))$ represent an impaired life aged $x$.
+\begin{align*}
+\px[t]{i(x)} &= \exp\left( -\int_{0}^{t} \left( \mu_{x+t} + c \right) \right) = \px[t]{x} \cdot e^{-ct} \\
+\px{i(x)} &= \px{x} \cdot e^{-c}
+\end{align*}
+The following formulae follow from above.
+\begin{align*}
+q_{i(x)} &= 1 - p_{i(x)} \\
+d_{i(x)} &= l_{i(x)} q_{i(x)} \\
+l_{i(x)} &= l_{i(x-1)} p_{i(x-1)}
+\end{align*}
+
+&nbsp;  
+
+## Question 8
+
+Refer to the spreadsheet for the constructed columns. See below for the formulae used and the calculation.
+
+Since $(i(110))$ will on average live $e_{i(110)}$ years, we discount $e_{110}$ at the additional force of mortality $c$ for a period of $e_{i(110)}$ years to approximate $e_{i(110)}$. We then use Excel Solver to find the solution to this equation.
+\begin{align*}
+e_{i(110)} &\approx e_{110}\exp\left( -ce_{i(110)} \right) \\
+  &= 1.1203
+\end{align*}
+The formulae developed in question 3 can then be used to approximate the life table functions.
+\begin{align*}
+100000 \Ax{i(40):\angl{15}} &= 4P\ax**{i(40):\angl{10}}[(4)] \\
+P &= \frac{100000 \Ax{i(40):\angl{15}}}{4\ax**{i(40):\angl{10}}[(4)]} \approx \frac{25000 \Ax{i(40):\angl{15}}}{\ax**{i(40):\angl{10}} - \frac{3}{8} \left( 1 - \frac{D_{i(50)}}{D_{i(40)}} \right)} \\
+  &= \frac{25000 \left( \Ax{i(40)} - \frac{D_{i(55)}}{D_{i(40)}} \cdot \Ax{i(55)} \right)}{\ax**{i(40)} - \frac{D_{i(50)}}{D_{i(40)}} \cdot \ax**{i(50)} - \frac{3}{8} \left( 1 - \frac{D_{i(50)}}{D_{i(40)}} \right)} \\
+  &= `r round(25000 * (0.382322035585216 - 3912.7358655077/9588.15078148361 * 0.450213546366901) / (16.0596270594277 - 5291.66884737353/9588.15078148361 * 15.0183391684814 - 3/8 * (1 - 5291.66884737353/9588.15078148361)), 2)`
+\end{align*}
+
+&nbsp;  
+
+## Question 9
+
+Compared to the constant increase in the force of mortality with respect to age in question 7, having it decrease with respect to age instead results in higher rates of mortality before age 43, and lower rates at age 43 and after. This changes the behavior of life table functions and may be suitable if deaths due to impairment occur at greater rates during younger ages compared to older.
+
+Let $(j(x))$ represent a life aged $x$ subject to these new impaired mortality rates.
+
+Similar to the process in question 8, to estimate $e_{j(110)}$, we discount $e_{110}$ at the additional force of mortality for a period of $e_{j(110)}$ years, and then use Excel solver to find the solution to the equation. The additional force of mortality is $\frac{1}{110+10}$ for the first year and $\frac{1}{111+10}$ for the remaining $e_{j(110)}-1 \in (0, 1)$ years.
+\begin{align*}
+e_{j(110)} &\approx e_{110}\exp\left( -\frac{1}{120} - \frac{1}{121} \left(e_{j(110)}-1\right) \right) \\
+  &= 1.1337
+\end{align*}
+The formulae developed in question 3 can then be used to approximate the life table functions.
+
+\begin{enumerate}
+\item \begin{align*}
+    \actsymb{A}{\nthtop{1}{j(43)}:\angl{10}} &= \actsymb{A}{j(43)} - \frac{D_{j(53)}}{D_{j(43)}}A_{j(53)} \\
+      &= `r round(0.365448513153936 - 2039.11139946385/3645.3894076539 * 0.401597763481315, 5)`
+  \end{align*}
+\addtocounter{enumi}{1}
+\item \begin{align*}
+    \Ax*{j(43):\angl{20}} &\approx 1.04^{0.5} \left( \Ax{j(43)} - \frac{D_{j(63)}}{D_{j(43)}} \Ax{j(63)} \right) + \frac{D_{j(63)}}{D_{j(43)}} \\
+      &= `r round(1.04^0.5 * (0.365448513153936 - 1149.99515255017/3645.3894076539 * 0.473307214419562) + 1149.99515255017/3645.3894076539, 5)`
+  \end{align*}
+\item \begin{align*}
+    Var(v^{T_{j(43)}}) &\approx 1.04 \left( \Ax[][2]{j(43)} - \left(\Ax{j(43)}\right)^2 \right) \\
+      &= `r round(1.04 * (0.196501767733017 - 0.365448513153936^2), 5)`
+  \end{align*}
+\end{enumerate}
+
+&nbsp;  
+
+## Question 10
+
+\begin{align*}
+100000 \Ax*{\nthtop{1}{j(50)}:\angl{10}} &= P \ax**{j(50):\angl{10}0} \\
+P &= \frac{100000 \Ax*{\nthtop{1}{j(50)}:\angl{10}}}{\ax**{j(50):\angl{10}0}} \approx \frac{100000 \frac{i}{\delta} \left( \Ax{j(50)} - \frac{D_{j(60)}}{D_{j(50)}} \Ax{j(60)} \right)}{\ax**{j(50)|0} - \px[10]{j(50)} \ax**{j(60)|0}} \\
+  &= `r round(100000 * 0.04/log(1.04) * (0.387338437069109 - 1366.55773650501/2422.91753129088 * 0.447705725696986) / (28.3748549324885 - 14375.6782196249/17218.9076690308 * 22.9327451656956), 2)`
+\end{align*}
+$\ax**{j(x)}$ were obtained by setting $i=0$ in the formula derived in question 3.
+\begin{align*}
+\tensor*[_{t}]{V}{^+} &= 100000 \Ax*{\nthtop{1}{j(50+t)}:\angl{10-t}} - P (1.04)^t \cdot \ax**{j(50+t):\angl{10-t}0} \\
+  &\approx 100000 \frac{i}{\delta} \left( \Ax{j(50+t)} - \frac{D_{j(60)}}{D_{j(50+t)}} \Ax{j(60)} \right) - P (1.04)^t \left( \ax**{j(50+t)|0} - \px[10-t]{j(50+t)} \ax**{j(60)|0} \right)
+\end{align*}
+Refer to the spreadsheet for prospective policy values.
+
+
+
+
